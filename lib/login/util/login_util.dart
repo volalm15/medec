@@ -50,7 +50,10 @@ void registerAccount(String username, String email, String password,
             .user;
 
     await user.sendEmailVerification();
-
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ConfirmMail()),
+    );
     await user.updateProfile(displayName: username);
   } catch (e) {
     scaffoldState.currentState.showSnackBar(SnackBar(

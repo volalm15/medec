@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "756011479828",
-    "firebase_url": "https://medec-22cf0-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "medec-22cf0",
-    "storage_bucket": "medec-22cf0.appspot.com"
+    "project_number": "567818071084",
+    "firebase_url": "https://medec-3ae9d-default-rtdb.firebaseio.com",
+    "project_id": "medec-3ae9d",
+    "storage_bucket": "medec-3ae9d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:756011479828:android:7d6eba1c89f21ed4a14801",
+        "mobilesdk_app_id": "1:567818071084:android:17bdccadcb0a4d7dd0b589",
         "android_client_info": {
           "package_name": "com.volalm15.medec"
         }
       },
       "oauth_client": [
         {
-          "client_id": "756011479828-vtfn2n7ns4urkjsfouj0f94comkh62ja.apps.googleusercontent.com",
+          "client_id": "567818071084-ng60gr193k2qk3nint8rqu6jlk7njg3s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDD738bIpgMfuKzJdqTaMacJUSWfdP54G8"
+          "current_key": "AIzaSyDU0v94U3AFk9XV5RNUu1JLR0_lR1wMjzc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "756011479828-vtfn2n7ns4urkjsfouj0f94comkh62ja.apps.googleusercontent.com",
+              "client_id": "567818071084-ng60gr193k2qk3nint8rqu6jlk7njg3s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

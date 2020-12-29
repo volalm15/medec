@@ -16,12 +16,7 @@ Future<void> main() async {
     bool _firstUse = true;
     initializeDateFormatting('de_DE', null);
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: FirebaseOptions(
-        databaseURL:
-            'https://medec-22cf0-default-rtdb.europe-west1.firebasedatabase.app',
-      ),
-    );
+    await Firebase.initializeApp();
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     SharedPreferences prefs = await SharedPreferences.getInstance();
