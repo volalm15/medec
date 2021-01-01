@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:medec/pages/dashboard/models/gender.dart';
 import 'package:medec/pages/dashboard/models/insurance.dart';
@@ -6,7 +7,7 @@ import 'package:medec/pages/dashboard/models/insurance.dart';
 part 'patient_model.g.dart';
 
 @JsonSerializable()
-class Patient {
+class Patient extends ChangeNotifier {
   DatabaseReference id;
   final String firstName;
   final String lastName;

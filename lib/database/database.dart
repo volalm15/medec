@@ -16,17 +16,12 @@ void updatePatient(Patient patient, DatabaseReference id) {
   id.update(patient.toJson());
 }
 
-Future<List<Patient>> getAllPatientsOfUser(User user) async {
-  List<Patient> patients = [];
-  databaseReference.child('patients').once().then((value) {
-    if (value.value != null) {
-      value.value.forEach((key, value) {
-        Patient patient = Patient.fromJson(value);
-        patient.id = databaseReference.child('patients/' + key);
-        patients.add(patient);
-      });
-    }
-  });
-
-  return patients;
+Patient getPatientFromDataSnapshot(DataSnapshot dataSnapshot) {
+  if (dataSnapshot.value != null) {
+    Patient patient =
+        Patient.fromJson(Map<String, dynamic>.from(dataSnapshot.value));
+    patient.id = databaseReference.child('patients/' + dataSnapshot.key);
+    return patient;
+  }
+  throw Exception("DataSnapshot is null");
 }

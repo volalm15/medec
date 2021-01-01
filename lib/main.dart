@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           ),
           primaryColor: primaryColor,
           errorColor: stateError,
-          primarySwatch: Colors.grey,
+          primarySwatch: primaryColor,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: _firstUse
@@ -56,15 +56,6 @@ class MyApp extends StatelessWidget {
                 stream: FirebaseAuth.instance.authStateChanges(),
                 builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                   switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return Scaffold(
-                        body: Center(
-                          child: CircularProgressIndicator(
-                            backgroundColor: primaryColor,
-                            strokeWidth: 5,
-                          ),
-                        ),
-                      );
                     case ConnectionState.active:
                       {
                         User user = snapshot.data;

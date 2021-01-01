@@ -5,7 +5,6 @@ import 'package:medec/components/search_field.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
-import 'add_patient_dialog.dart';
 
 class HomeHeader extends StatefulWidget {
   const HomeHeader({
@@ -13,11 +12,20 @@ class HomeHeader extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _HomeHeaderState createState() => _HomeHeaderState();
+  HomeHeaderState createState() => HomeHeaderState();
 }
 
-class _HomeHeaderState extends State<HomeHeader> {
+class HomeHeaderState extends State<HomeHeader> {
   bool _editMode = false;
+  void editModeCallback(bool value) {
+    _editMode = value;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Provider.of<Patient>(context, listen: false).setX = 'Set to new value';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,36 +65,20 @@ class _HomeHeaderState extends State<HomeHeader> {
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(20),
                               topLeft: Radius.circular(20)),
-                          child: Column(
-                            children: [
-                              IconButton(
-                                  splashRadius: 20,
-                                  icon: Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                    size: getProportionateScreenHeight(25),
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      showMaterialDialog();
-                                    });
-                                  }),
-                              IconButton(
-                                  splashRadius: 20,
-                                  icon: Icon(
-                                    Icons.logout,
-                                    color: Colors.white,
-                                    size: getProportionateScreenHeight(25),
-                                  ),
-                                  onPressed: () {
-                                    FirebaseAuth.instance.signOut();
-                                  })
-                            ],
-                          ),
+                          child: IconButton(
+                              splashRadius: 20,
+                              icon: Icon(
+                                Icons.logout,
+                                color: Colors.white,
+                                size: getProportionateScreenHeight(25),
+                              ),
+                              onPressed: () {
+                                FirebaseAuth.instance.signOut();
+                              }),
                         ),
                       ),
                       AnimatedOpacity(
-                        opacity: true ? 1.0 : 0.0,
+                        opacity: _editMode ? 1.0 : 0.0,
                         duration: Duration(milliseconds: 200),
                         curve: Curves.easeInExpo,
                         child: Padding(
@@ -140,9 +132,5 @@ class _HomeHeaderState extends State<HomeHeader> {
         ),
       ),
     );
-  }
-
-  showMaterialDialog() {
-    showDialog(context: context, builder: (_) => AddPatientDialog());
   }
 }

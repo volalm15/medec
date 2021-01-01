@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medec/confirmMail/confirmMail.dart';
+import 'package:medec/home/home.dart';
 
 import '../../constants.dart';
 
@@ -30,6 +31,10 @@ signInWithEmailAndPassword(String email, String password,
         ),
       ));
     }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => Home()),
+    );
   } catch (e) {
     scaffoldState.currentState.showSnackBar(SnackBar(
       content: Text(e.toString()),

@@ -13,9 +13,9 @@ import 'package:medec/pages/dashboard/models/insurance.dart';
 import 'package:medec/pages/dashboard/models/patient_model.dart';
 import 'package:medec/size_config.dart';
 
-class AddPatientDialog extends StatefulWidget {
+class AddPatient extends StatefulWidget {
   @override
-  _AddPatientDialogState createState() => _AddPatientDialogState();
+  _AddPatientState createState() => _AddPatientState();
 }
 
 List<GlobalKey<FormState>> _formKeys = [
@@ -24,7 +24,7 @@ List<GlobalKey<FormState>> _formKeys = [
   GlobalKey<FormState>(),
 ];
 
-class _AddPatientDialogState extends State<AddPatientDialog> {
+class _AddPatientState extends State<AddPatient> {
   TextEditingController firstNameController = new TextEditingController();
   TextEditingController lastNameController = new TextEditingController();
   TextEditingController dayOfBirthController = new TextEditingController();
@@ -56,34 +56,40 @@ class _AddPatientDialogState extends State<AddPatientDialog> {
     Size size = MediaQuery.of(context).size;
     List<Step> steps = [
       Step(
-          title: Text("General Patient Data"),
-          subtitle: Text("Name - Day Of Birth - Gender"),
+          title: Text("General"),
           content: Form(
             child: Column(
               children: [
-                PlantyTextFormField(
-                  hintText: "First Name",
-                  controller: firstNameController,
-                  prefixIcon: FontAwesomeIcons.idCard,
-                  height: getProportionateScreenHeight(10),
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'First name could not be empty';
-                    }
-                    return null;
-                  },
-                ),
-                PlantyTextFormField(
-                  controller: lastNameController,
-                  hintText: "Last Name",
-                  prefixIcon: FontAwesomeIcons.idCard,
-                  height: getProportionateScreenHeight(10),
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Last name could not be empty';
-                    }
-                    return null;
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    PlantyTextFormField(
+                      hintText: "First Name",
+                      width: getProportionateScreenWidth(165),
+                      controller: firstNameController,
+                      prefixIcon: FontAwesomeIcons.idCard,
+                      height: getProportionateScreenHeight(10),
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'First name could not be empty';
+                        }
+                        return null;
+                      },
+                    ),
+                    PlantyTextFormField(
+                      controller: lastNameController,
+                      width: getProportionateScreenWidth(165),
+                      hintText: "Last Name",
+                      prefixIcon: FontAwesomeIcons.idCard,
+                      height: getProportionateScreenHeight(10),
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Last name could not be empty';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
                 ),
                 PlantyTextFormField(
                   controller: dayOfBirthController,
@@ -122,37 +128,44 @@ class _AddPatientDialogState extends State<AddPatientDialog> {
                     });
                   },
                 ),
-                PlantyTextFormField(
-                  controller: postalCodeController,
-                  height: getProportionateScreenHeight(10),
-                  isNumber: true,
-                  inputFormatter: [
-                    LengthLimitingTextInputFormatter(4),
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    PlantyTextFormField(
+                      controller: postalCodeController,
+                      width: getProportionateScreenWidth(165),
+                      height: getProportionateScreenHeight(10),
+                      isNumber: true,
+                      inputFormatter: [
+                        LengthLimitingTextInputFormatter(4),
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                      ],
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Postal code number could not be empty';
+                        }
+                        if (value.length != 4) {
+                          return 'Postal code number is too short';
+                        }
+                        return null;
+                      },
+                      hintText: "Postal-Code",
+                      prefixIcon: FontAwesomeIcons.city,
+                    ),
+                    PlantyTextFormField(
+                      controller: cityController,
+                      hintText: "City",
+                      prefixIcon: FontAwesomeIcons.idCard,
+                      width: getProportionateScreenWidth(165),
+                      height: getProportionateScreenHeight(10),
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'City could not be empty';
+                        }
+                        return null;
+                      },
+                    ),
                   ],
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Postal code number could not be empty';
-                    }
-                    if (value.length != 4) {
-                      return 'Postal code number is too short';
-                    }
-                    return null;
-                  },
-                  hintText: "Postal-Code",
-                  prefixIcon: FontAwesomeIcons.city,
-                ),
-                PlantyTextFormField(
-                  controller: cityController,
-                  hintText: "City",
-                  prefixIcon: FontAwesomeIcons.idCard,
-                  height: getProportionateScreenHeight(10),
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'City could not be empty';
-                    }
-                    return null;
-                  },
                 ),
                 PlantyTextFormField(
                   controller: streetController,
@@ -171,8 +184,7 @@ class _AddPatientDialogState extends State<AddPatientDialog> {
             key: _formKeys[0],
           )),
       Step(
-          title: Text("Medical Data"),
-          subtitle: Text("Insurance Number - Institute"),
+          title: Text("Insurance"),
           content: Form(
             child: Column(
               children: [
@@ -242,11 +254,11 @@ class _AddPatientDialogState extends State<AddPatientDialog> {
       Step(
           title: Text("Co-Insurance"),
           state: _coInsurance ? StepState.indexed : StepState.disabled,
-          subtitle: Text("Name - Day Of Birth - Gender"),
           content: Form(
             child: Column(
               children: [
                 PlantyTextFormField(
+                  width: size.width / 2,
                   hintText: "First Name",
                   prefixIcon: FontAwesomeIcons.idCard,
                   height: getProportionateScreenHeight(10),
@@ -352,98 +364,153 @@ class _AddPatientDialogState extends State<AddPatientDialog> {
       }
     }
 
-    return AlertDialog(
-      title: Text("Add Patient"),
-      content: Container(
-        height: size.height,
-        width: size.width,
+    return Scaffold(
+      body: SafeArea(
         child: SingleChildScrollView(
-            child: Stepper(
-                physics: BouncingScrollPhysics(),
-                currentStep: currentStep,
-                steps: steps,
-                onStepCancel: cancel,
-                onStepContinue: next,
-                onStepTapped: (step) =>
-                    _formKeys[currentStep].currentState.validate() ??
-                    goTo(step),
-                controlsBuilder: (BuildContext context,
-                    {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
-                  return Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
-                    child: Row(
-                      children: [
-                        Material(
-                            color: primaryColorDark,
-                            borderRadius: BorderRadius.circular(20),
-                            child: Container(
+            child: Column(
+          children: [
+            Container(
+              height: size.height * 0.8,
+              width: size.width,
+              child: Stepper(
+                  type: StepperType.horizontal,
+                  physics: BouncingScrollPhysics(),
+                  currentStep: currentStep,
+                  steps: steps,
+                  onStepCancel: cancel,
+                  onStepContinue: next,
+                  onStepTapped: (step) =>
+                      _formKeys[currentStep].currentState.validate() ??
+                      goTo(step),
+                  controlsBuilder: (BuildContext context,
+                      {VoidCallback onStepContinue,
+                      VoidCallback onStepCancel}) {
+                    return Padding(
+                      padding: const EdgeInsets.all(defaultPadding),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: getProportionateScreenHeight(40),
+                            width: getProportionateScreenWidth(150),
+                            child: RaisedButton.icon(
+                              elevation: 10,
+                              color: primaryColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20))),
+                              label: Text("NEXT",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          getProportionateScreenHeight(15))),
+                              onPressed: onStepContinue,
+                              icon: FaIcon(
+                                FontAwesomeIcons.arrowDown,
+                                size: getProportionateScreenHeight(20),
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          if (currentStep >= 1)
+                            Container(
                               height: getProportionateScreenHeight(40),
-                              width: getProportionateScreenWidth(60),
-                              child: IconButton(
-                                onPressed: onStepContinue,
+                              width: getProportionateScreenWidth(150),
+                              child: RaisedButton.icon(
+                                elevation: 10,
+                                color: primaryColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                label: Text("PREVIOUS",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize:
+                                            getProportionateScreenHeight(15))),
+                                onPressed: onStepCancel,
                                 icon: FaIcon(
-                                  FontAwesomeIcons.arrowDown,
+                                  FontAwesomeIcons.arrowUp,
                                   size: getProportionateScreenHeight(20),
                                   color: Colors.white,
                                 ),
                               ),
-                            )),
-                        if (currentStep >= 1)
-                          Material(
-                              color: primaryColorDark,
-                              borderRadius: BorderRadius.circular(20),
-                              child: Container(
-                                width: getProportionateScreenWidth(60),
-                                height: getProportionateScreenHeight(40),
-                                child: IconButton(
-                                  onPressed: onStepCancel,
-                                  icon: FaIcon(
-                                    FontAwesomeIcons.arrowUp,
-                                    size: getProportionateScreenHeight(20),
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    ),
-                  );
-                })),
-      ),
-      actions: <Widget>[
-        RaisedButton.icon(
-          color: primaryColorDark,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          icon: FaIcon(
-            FontAwesomeIcons.trashAlt,
-            size: getProportionateScreenHeight(20),
-          ),
-          label: Text('Cancel'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        AnimatedOpacity(
-          opacity: _complete ? 1.0 : 0.0,
-          duration: Duration(milliseconds: 200),
-          curve: Curves.easeInExpo,
-          child: RaisedButton.icon(
-            color: primaryColorDark,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+                            ),
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      ),
+                    );
+                  }),
             ),
-            icon: FaIcon(FontAwesomeIcons.plus,
-                size: getProportionateScreenHeight(20)),
-            label: Text('Add Patient'),
-            onPressed: () {
-              createPatient();
-              Navigator.of(context).pop();
-            },
-          ),
-        )
-      ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(defaultPadding),
+                  child: Container(
+                    height: getProportionateScreenHeight(40),
+                    width: getProportionateScreenWidth(165),
+                    child: RaisedButton.icon(
+                      elevation: 10,
+                      color: primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      icon: FaIcon(FontAwesomeIcons.trashAlt,
+                          color: Colors.white,
+                          size: getProportionateScreenHeight(20)),
+                      label: Text(
+                        'CANCEL',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: getProportionateScreenHeight(15)),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                ),
+                if (_complete)
+                  Padding(
+                    padding: const EdgeInsets.all(defaultPadding),
+                    child: AnimatedOpacity(
+                      opacity: _complete ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.easeInExpo,
+                      child: Container(
+                        height: getProportionateScreenHeight(40),
+                        width: getProportionateScreenWidth(165),
+                        child: RaisedButton.icon(
+                          elevation: 10,
+                          color: primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          icon: FaIcon(FontAwesomeIcons.plus,
+                              color: Colors.white,
+                              size: getProportionateScreenHeight(20)),
+                          label: Text(
+                            'ADD PATIENT',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: getProportionateScreenHeight(15)),
+                          ),
+                          onPressed: () {
+                            if (_formKeys[currentStep]
+                                .currentState
+                                .validate()) {
+                              createPatient();
+                              Navigator.of(context).pop();
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            )
+          ],
+        )),
+      ),
     );
   }
 
@@ -501,8 +568,8 @@ Future<DateTime> buildMaterialDatePicker(BuildContext context) async {
   final DateTime picked = await showDatePicker(
     context: context,
     initialDate: initialDate,
-    firstDate: DateTime(2000),
-    lastDate: DateTime(2025),
+    firstDate: DateTime(1900),
+    lastDate: DateTime(2021),
     builder: (context, child) {
       return Theme(
         data: ThemeData.dark(),
