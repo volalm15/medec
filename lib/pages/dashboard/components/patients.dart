@@ -22,8 +22,21 @@ class Patients with ChangeNotifier {
     return patients;
   }
 
+  int indexOf(Patient patient) {
+    int i;
+    i = patients.indexOf(patient);
+    notifyListeners();
+    return i;
+  }
+
+  List<Patient> setPatient(Patient patient, int i) {
+    patients[i] = patient;
+    return patients;
+  }
+
   Patient get(int i) {
     Patient patient = patients.elementAt(i);
     notifyListeners();
     return patient;
-  }}
+  }
+}

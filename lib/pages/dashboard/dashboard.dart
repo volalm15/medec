@@ -2,10 +2,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medec/database/database.dart';
-import 'package:medec/pages/dashboard/models/patient_model.dart';
 
 import 'components/home_body.dart';
 import 'components/home_header.dart';
+import 'components/patients.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -13,7 +13,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  List<Patient> patients;
+  Patients patients;
   DatabaseReference itemRef;
 
   @override
@@ -23,8 +23,8 @@ class _DashboardState extends State<Dashboard> {
         .instance; //Rather then just writing FirebaseDatabase(), get the instance.
     itemRef = database.reference().child('patients/');
     itemRef.onChildAdded.listen(_onEntryAdded);
-    itemRef.onChildChanged.listen(_onEntryChanged);
-    itemRef.onChildRemoved.listen(_onEntryDeleted);
+    //itemRef.onChildChanged.listen(_onEntryChanged);
+    //itemRef.onChildRemoved.listen(_onEntryDeleted);
     itemRef.onChildMoved.listen(_onEntryMoved);
   }
 
@@ -34,7 +34,7 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
-  _onEntryDeleted(Event event) {
+  /*_onEntryDeleted(Event event) {
     setState(() {
       var old = patients.singleWhere((entry) {
         return entry.id.key ==
@@ -48,13 +48,13 @@ class _DashboardState extends State<Dashboard> {
         patients.removeAt(patients.indexOf(old));
       });
     });
-  }
+  }*/
 
   _onEntryMoved(Event event) {
     throw new UnimplementedError("Error");
   }
 
-  _onEntryChanged(Event event) {
+  /*_onEntryChanged(Event event) {
     var old = patients.singleWhere((entry) {
       return entry.id.key ==
           FirebaseDatabase.instance
@@ -62,10 +62,10 @@ class _DashboardState extends State<Dashboard> {
               .child('patients/')
               .child(event.snapshot.key)
               .key;
-    });
+    });*/
     setState(() {
-      patients[patients.indexOf(old)] =
-          getPatientFromDataSnapshot(event.snapshot);
+      patients.setPatient(
+          getPatientFromDataSnapshot(event.snapshot), patients.indexOf(old));
     });
   }
 
