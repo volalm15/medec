@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../size_config.dart';
 
 class SearchField extends StatelessWidget {
+  final Function onChanged;
+
+  const SearchField(this.onChanged);
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -14,7 +17,7 @@ class SearchField extends StatelessWidget {
         width: getProportionateScreenWidth(300),
         height: getProportionateScreenWidth(55),
         child: TextField(
-          onChanged: (value) {},
+          onChanged: onChanged,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: "Search for something…",

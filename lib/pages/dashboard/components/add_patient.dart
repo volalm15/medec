@@ -14,8 +14,11 @@ import 'package:medec/pages/dashboard/models/patient_model.dart';
 import 'package:medec/size_config.dart';
 
 class AddPatient extends StatefulWidget {
+  Patient editablePatient;
+  AddPatient({this.editablePatient});
+
   @override
-  _AddPatientState createState() => _AddPatientState();
+  _AddPatientState createState() => _AddPatientState(editablePatient);
 }
 
 List<GlobalKey<FormState>> _formKeys = [
@@ -25,6 +28,35 @@ List<GlobalKey<FormState>> _formKeys = [
 ];
 
 class _AddPatientState extends State<AddPatient> {
+  Insurance _insuranceValue = Insurance.GKK;
+  Insurance _coInsuranceValue = Insurance.GKK;
+
+  Patient editablePatient;
+  _AddPatientState(this.editablePatient) {
+    if (editablePatient != null) {
+      firstNameController.text = editablePatient.firstName;
+      lastNameController.text = editablePatient.lastName;
+      dayOfBirthController.text =
+          DateFormat.yMd().format(editablePatient.dayOfBirth);
+      postalCodeController.text = editablePatient.postalCode.toString();
+      cityController.text = editablePatient.city;
+      _genderValue = editablePatient.gender;
+      streetController.text = editablePatient.street;
+      svNumberController.text = editablePatient.svNumber.toString();
+      insuranceController.text = insuranceToString(editablePatient.insurance);
+      doctorController.text = editablePatient.doctor;
+      _coInsurance = editablePatient.hasCoInsurance;
+      coFirstNameController.text = editablePatient.coFirstName;
+      coLastNameController.text = editablePatient.coLastName;
+      coDayOfBirthController.text =
+          DateFormat.yMd().format(editablePatient.coDayOfBirth);
+      coSvNumberController.text = editablePatient.coSvNumber.toString();
+      coInsuranceController.text =
+          insuranceToString(editablePatient.coInsurance);
+      _coInsuranceValue = editablePatient.coInsurance;
+    }
+  }
+
   TextEditingController firstNameController = new TextEditingController();
   TextEditingController lastNameController = new TextEditingController();
   TextEditingController dayOfBirthController = new TextEditingController();
@@ -45,12 +77,9 @@ class _AddPatientState extends State<AddPatient> {
 
   Gender _genderValue = Gender.MALE;
 
-  Insurance _insuranceValue = Insurance.GKK;
-
   bool _coInsurance = false;
   bool _complete = false;
 
-  Insurance _coInsuranceValue = Insurance.GKK;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -257,31 +286,38 @@ class _AddPatientState extends State<AddPatient> {
           content: Form(
             child: Column(
               children: [
-                PlantyTextFormField(
-                  width: size.width / 2,
-                  hintText: "First Name",
-                  prefixIcon: FontAwesomeIcons.idCard,
-                  height: getProportionateScreenHeight(10),
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'First name could not be empty';
-                    }
-                    return null;
-                  },
+                Row(
+                  children: [
+                    PlantyTextFormField(
+                      width: getProportionateScreenWidth(165),
+                      hintText: "First Name",
+                      controller: coFirstNameController,
+                      prefixIcon: FontAwesomeIcons.idCard,
+                      height: getProportionateScreenHeight(10),
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'First name could not be empty';
+                        }
+                        return null;
+                      },
+                    ),
+                    PlantyTextFormField(
+                      hintText: "Last Name",
+                      controller: coLastNameController,
+                      width: getProportionateScreenWidth(165),
+                      prefixIcon: FontAwesomeIcons.idCard,
+                      height: getProportionateScreenHeight(10),
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Last name could not be empty';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
                 ),
                 PlantyTextFormField(
-                  hintText: "Last Name",
-                  prefixIcon: FontAwesomeIcons.idCard,
-                  height: getProportionateScreenHeight(10),
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Last name could not be empty';
-                    }
-                    return null;
-                  },
-                ),
-                PlantyTextFormField(
-                  controller: dayOfBirthController,
+                  controller: coDayOfBirthController,
                   hintText: "Day of Birth",
                   prefixIcon: FontAwesomeIcons.calendarAlt,
                   height: getProportionateScreenHeight(10),
@@ -295,7 +331,7 @@ class _AddPatientState extends State<AddPatient> {
                   onTap: () {
                     setState(() {
                       buildMaterialDatePicker(context).then((value) =>
-                          dayOfBirthController.text =
+                          coDayOfBirthController.text =
                               DateFormat.yMd().format(value));
                     });
                   },
@@ -303,6 +339,7 @@ class _AddPatientState extends State<AddPatient> {
                 PlantyTextFormField(
                   height: getProportionateScreenHeight(10),
                   isNumber: true,
+                  controller: coSvNumberController,
                   inputFormatter: [
                     LengthLimitingTextInputFormatter(4),
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -454,7 +491,7 @@ class _AddPatientState extends State<AddPatient> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      icon: FaIcon(FontAwesomeIcons.trashAlt,
+                      icon: FaIcon(FontAwesomeIcons.times,
                           color: Colors.white,
                           size: getProportionateScreenHeight(20)),
                       label: Text(
@@ -488,12 +525,21 @@ class _AddPatientState extends State<AddPatient> {
                           icon: FaIcon(FontAwesomeIcons.plus,
                               color: Colors.white,
                               size: getProportionateScreenHeight(20)),
-                          label: Text(
-                            'ADD PATIENT',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: getProportionateScreenHeight(15)),
-                          ),
+                          label: widget.editablePatient == null
+                              ? Text(
+                                  'ADD PATIENT',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          getProportionateScreenHeight(15)),
+                                )
+                              : Text(
+                                  'SAVE PATIENT',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          getProportionateScreenHeight(15)),
+                                ),
                           onPressed: () {
                             if (_formKeys[currentStep]
                                 .currentState
@@ -536,9 +582,10 @@ class _AddPatientState extends State<AddPatient> {
     if (_coInsurance) {
       coFirstName = coFirstNameController.text;
       coLastName = coLastNameController.text;
-      coDayOfBirth = DateTime.parse(coDayOfBirthController.text);
+      final DateTime coDayOfBirth =
+          DateFormat.yMd().parse(coDayOfBirthController.text);
       coSvNumber = int.parse(coSvNumberController.text);
-      coInsurance = insuranceToString(_coInsuranceValue);
+      coInsurance = _coInsuranceValue;
     }
 
     final Patient patient = new Patient(
@@ -559,7 +606,11 @@ class _AddPatientState extends State<AddPatient> {
         coSvNumber,
         coInsurance);
 
-    patient.id = savePatient(FirebaseAuth.instance.currentUser, patient);
+    if (editablePatient == null) {
+      patient.id = savePatient(FirebaseAuth.instance.currentUser, patient);
+    } else {
+      updatePatient(patient, editablePatient.id);
+    }
   }
 }
 
@@ -569,7 +620,7 @@ Future<DateTime> buildMaterialDatePicker(BuildContext context) async {
     context: context,
     initialDate: initialDate,
     firstDate: DateTime(1900),
-    lastDate: DateTime(2021),
+    lastDate: DateTime(2022),
     builder: (context, child) {
       return Theme(
         data: ThemeData.dark(),

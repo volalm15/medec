@@ -2,7 +2,7 @@ enum Insurance {
   GKK,
   BVAEB,
   BVAOEB,
-  SVSLW,
+  SVS,
 }
 insuranceToString(Insurance insurace) {
   switch (insurace) {
@@ -12,8 +12,8 @@ insuranceToString(Insurance insurace) {
       return "BVA-EB";
     case Insurance.BVAOEB:
       return "BVA-OEB";
-    case Insurance.SVSLW:
-      return "SVS-LW";
+    case Insurance.SVS:
+      return "SVS";
     default:
       return "Should not see me :)";
   }

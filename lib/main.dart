@@ -45,9 +45,10 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.poppinsTextTheme(
             Theme.of(context).textTheme,
           ),
-          primaryColor: primaryColor,
+          accentColor: Colors.grey,
+          primaryColor: Colors.grey,
           errorColor: stateError,
-          primarySwatch: primaryColor,
+          primarySwatch: Colors.grey,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: _firstUse
@@ -59,10 +60,12 @@ class MyApp extends StatelessWidget {
                     case ConnectionState.active:
                       {
                         User user = snapshot.data;
-                        if (user == null) {
-                          return Login();
+                        if (user != null &&
+                            user.emailVerified &&
+                            !user.isAnonymous) {
+                          return Home();
                         }
-                        return Home();
+                        return Login();
                       }
 
                     default:

@@ -30,11 +30,12 @@ signInWithEmailAndPassword(String email, String password,
           },
         ),
       ));
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+      );
     }
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => Home()),
-    );
   } catch (e) {
     scaffoldState.currentState.showSnackBar(SnackBar(
       content: Text(e.toString()),
@@ -55,7 +56,7 @@ void registerAccount(String username, String email, String password,
             .user;
 
     await user.sendEmailVerification();
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => ConfirmMail()),
     );

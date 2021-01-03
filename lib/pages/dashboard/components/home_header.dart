@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medec/components/search_field.dart';
+import 'package:medec/pages/dashboard/models/patient_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -16,6 +18,8 @@ class HomeHeader extends StatefulWidget {
 }
 
 class HomeHeaderState extends State<HomeHeader> {
+  ValueNotifier<String> searchNotifier;
+  ValueNotifier<List<Patient>> selectNotifier;
   bool _editMode = false;
   void editModeCallback(bool value) {
     _editMode = value;
@@ -29,13 +33,16 @@ class HomeHeaderState extends State<HomeHeader> {
 
   @override
   Widget build(BuildContext context) {
+    selectNotifier =
+        Provider.of<ValueNotifier<List<Patient>>>(context, listen: true);
+    searchNotifier = Provider.of<ValueNotifier<String>>(context, listen: true);
     return SliverAppBar(
       pinned: false,
       floating: true,
       stretch: true,
       snap: true,
       expandedHeight: getProportionateScreenHeight(220),
-      shadowColor: Colors.white,
+      shadowColor: Colors.transparent,
       backgroundColor: Colors.transparent,
       flexibleSpace: FlexibleSpaceBar(
         stretchModes: [StretchMode.blurBackground, StretchMode.fadeTitle],
@@ -125,7 +132,11 @@ class HomeHeaderState extends State<HomeHeader> {
               ),
               Positioned(
                 bottom: getProportionateScreenWidth(-25),
-                child: SearchField(),
+                child: SearchField((value) {
+                  setState(() {
+                    searchNotifier.value = value;
+                  });
+                }),
               )
             ],
           ),

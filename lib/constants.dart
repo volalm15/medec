@@ -23,7 +23,7 @@ const stateWarning = Color(0xFFFFCF5C);
 const stateError = Color(0xFFF75010);
 
 const primaryTextColor = Colors.black87;
-const primaryColor2 = Colors.blueGrey;
-const primaryColor = Colors.blueGrey;
+const primaryColor2 = Color(0xFF282338);
+const primaryColor = Color(0xFF57566D);
 const primaryColorDark = Colors.black87;
 const defaultPadding = 8.0;

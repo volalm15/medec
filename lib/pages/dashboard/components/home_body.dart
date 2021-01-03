@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:medec/constants.dart';
-import 'package:medec/pages/dashboard/models/gender.dart';
+import 'package:medec/pages/dashboard/components/add_patient.dart';
 import 'package:medec/pages/dashboard/models/insurance.dart';
 import 'package:medec/pages/dashboard/models/patient_model.dart';
 import 'package:provider/provider.dart';
 
+import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class HomeBody extends StatefulWidget {
@@ -19,118 +19,145 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
+  List<Patient> filteredPatients = [];
+  ValueNotifier<String> searchNotifier;
+  ValueNotifier<List<Patient>> selectNotifier;
   Patient selectedPatient;
-  List<Patient> patients = [];
 
   @override
   Widget build(BuildContext context) {
-    patients = Provider.of<List<Patient>>(context);
+    searchNotifier = Provider.of<ValueNotifier<String>>(context, listen: true);
+    selectNotifier =
+        Provider.of<ValueNotifier<List<Patient>>>(context, listen: true);
+
     TextStyle boldStyle = TextStyle(fontWeight: FontWeight.bold);
     SizeConfig().init(context);
-    return SliverFixedExtentList(
-      itemExtent:
-          getProportionateScreenHeight(70), //// I'm forcing item heights
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => ListTile(
-          selectedTileColor: Colors.grey.withOpacity(0.2),
-          selected: selectedPatient == patients.elementAt(index) ? true : false,
-          onTap: () {
-            setState(() {
-              var editMode = false;
-              var patient = patients[index];
-              if (selectedPatient == patient) {
-                selectedPatient = null;
-              } else {
-                selectedPatient = patients[index];
-              }
-              //TODO
-            });
-          },
-          trailing: patients.elementAt(index) == selectedPatient
-              ? IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return new AlertDialog(
-                          title: Text("Attention"),
-                          actions: [
-                            RaisedButton.icon(
-                              color: primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              icon: FaIcon(
-                                FontAwesomeIcons.trashAlt,
-                                size: getProportionateScreenHeight(20),
-                              ),
-                              label: Text('Cancel'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            RaisedButton.icon(
-                              color: primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              icon: FaIcon(
-                                FontAwesomeIcons.trashAlt,
-                                size: getProportionateScreenHeight(20),
-                              ),
-                              label: Text('Confirm'),
-                              onPressed: () {
-                                setState(() {
-                                  FirebaseDatabase.instance
-                                      .reference()
-                                      .child('patients/')
-                                      .child(selectedPatient.id.key)
-                                      .remove()
-                                      .then((value) {
-                                    selectedPatient = null;
-                                    Navigator.of(context).pop();
-                                  }).catchError((error, stackTrace) {
-                                    print("outer: $error");
-                                  });
-                                });
-                              },
-                            ),
-                          ],
-                          content: Text(
-                              "Do you really want do delete the patient " +
-                                  patients.elementAt(index).firstName +
-                                  " " +
-                                  patients.elementAt(index).lastName +
-                                  "?"),
-                        );
-                      },
+    return ValueListenableBuilder(
+        valueListenable: searchNotifier,
+        builder: (context, value, _) {
+          filteredPatients = selectNotifier.value
+              .where((u) => (u.firstName
+                      .toLowerCase()
+                      .contains(searchNotifier.value.toLowerCase()) ||
+                  u.lastName
+                      .toLowerCase()
+                      .contains(searchNotifier.value.toLowerCase())))
+              .toList();
+
+          return SliverFixedExtentList(
+            itemExtent:
+                getProportionateScreenHeight(70), //// I'm forcing item heights
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                Patient currentPatient = filteredPatients.elementAt(index);
+                return ListTile(
+                  selectedTileColor: Colors.grey.withOpacity(0.2),
+                  selected: selectedPatient == currentPatient ? true : false,
+                  onLongPress: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              AddPatient(editablePatient: currentPatient)),
                     );
                   },
-                  icon: FaIcon(FontAwesomeIcons.trashAlt))
-              : null,
-          subtitle: Text(patients.elementAt(index).street +
-              ", " +
-              patients.elementAt(index).postalCode.toString() +
-              " " +
-              patients.elementAt(index).city),
-          title: Text(
-            patients.elementAt(index).firstName +
-                " " +
-                patients.elementAt(index).lastName +
-                " ❘ " +
-                genderToString(patients.elementAt(index).gender) +
-                " | " +
-                patients.elementAt(index).svNumber.toString() +
-                " " +
-                DateFormat("ddMMyyyy")
-                    .format(patients.elementAt(index).dayOfBirth) +
-                " | " +
-                insuranceToString(patients.elementAt(index).insurance),
-            style: boldStyle,
-          ),
-        ),
-        childCount: patients.length,
-      ),
-    );
+                  onTap: () {
+                    setState(() {
+                      var editMode = false;
+                      var patient = filteredPatients[index];
+                      if (selectedPatient == patient) {
+                        selectedPatient = null;
+                      } else {
+                        selectedPatient = filteredPatients[index];
+                      }
+                      //TODO
+                    });
+                  },
+                  trailing: currentPatient == selectedPatient
+                      ? IconButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return new AlertDialog(
+                                  title: Text("Attention"),
+                                  actions: [
+                                    RaisedButton.icon(
+                                      color: primaryColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      icon: FaIcon(
+                                        FontAwesomeIcons.trashAlt,
+                                        size: getProportionateScreenHeight(20),
+                                      ),
+                                      label: Text('Cancel'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    RaisedButton.icon(
+                                      color: primaryColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      icon: FaIcon(
+                                        FontAwesomeIcons.trashAlt,
+                                        size: getProportionateScreenHeight(20),
+                                      ),
+                                      label: Text('Confirm'),
+                                      onPressed: () {
+                                        setState(() {
+                                          FirebaseDatabase.instance
+                                              .reference()
+                                              .child('patients/')
+                                              .child(selectedPatient.id.key)
+                                              .remove()
+                                              .then((value) {
+                                            selectedPatient = null;
+                                            Navigator.of(context).pop();
+                                          }).catchError((error, stackTrace) {
+                                            print("outer: $error");
+                                          });
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                  content: Text(
+                                      "Do you really want do delete the patient " +
+                                          currentPatient.firstName +
+                                          " " +
+                                          currentPatient.lastName +
+                                          "?"),
+                                );
+                              },
+                            );
+                          },
+                          icon: FaIcon(FontAwesomeIcons.trashAlt))
+                      : null,
+                  subtitle: Text(currentPatient.street +
+                      ", " +
+                      currentPatient.postalCode.toString() +
+                      " " +
+                      currentPatient.city +
+                      " | " +
+                      insuranceToString(currentPatient.insurance)),
+                  title: Text(
+                    currentPatient.firstName +
+                        " " +
+                        currentPatient.lastName +
+                        " | " +
+                        currentPatient.svNumber.toString() +
+                        " " +
+                        DateFormat("ddMMyyyy")
+                            .format(currentPatient.dayOfBirth),
+                    style: boldStyle,
+                  ),
+                );
+              },
+              childCount: filteredPatients.length,
+            ),
+          );
+        });
   }
 }

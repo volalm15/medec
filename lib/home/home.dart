@@ -4,7 +4,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:medec/constants.dart';
 import 'package:medec/pages/dashboard/components/add_patient.dart';
 import 'package:medec/pages/dashboard/dashboard.dart';
+import 'package:medec/pages/dashboard/models/patient_model.dart';
 import 'package:medec/size_config.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -56,31 +58,35 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    double timeDilation = 5.0; // 1.0 means normal animation speed.
     SizeConfig().init(context);
-    return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: primaryColor,
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddPatient()),
-            );
-          }),
-      extendBody: false,
-      body: PageView(
-        children: _pageOption,
-        controller: _pageController,
-        onPageChanged: (index) {
-          setState(() {
-            showNotification();
-            _page = index;
-          });
-        },
+    return ChangeNotifierProvider<ValueNotifier<List<Patient>>>(
+      create: (_) => ValueNotifier<List<Patient>>([]),
+      child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+            backgroundColor: primaryColor2,
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddPatient()),
+              );
+            }),
+        extendBody: false,
+        body: PageView(
+          children: _pageOption,
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              showNotification();
+              _page = index;
+            });
+          },
+        ),
       ),
     );
   }

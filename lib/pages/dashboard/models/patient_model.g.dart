@@ -83,11 +83,12 @@ T _$enumDecodeNullable<T>(
 const _$GenderEnumMap = {
   Gender.MALE: 'MALE',
   Gender.FEMALE: 'FEMALE',
+  Gender.NONE: 'NONE',
 };
 
 const _$InsuranceEnumMap = {
   Insurance.GKK: 'GKK',
   Insurance.BVAEB: 'BVAEB',
   Insurance.BVAOEB: 'BVAOEB',
-  Insurance.SVSLW: 'SVSLW',
+  Insurance.SVS: 'SVS',
 };

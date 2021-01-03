@@ -31,12 +31,16 @@ class Patients with ChangeNotifier {
 
   List<Patient> setPatient(Patient patient, int i) {
     patients[i] = patient;
+    notifyListeners();
     return patients;
   }
 
   Patient get(int i) {
     Patient patient = patients.elementAt(i);
-    notifyListeners();
     return patient;
+  }
+
+  int length() {
+    return patients.length;
   }
 }
