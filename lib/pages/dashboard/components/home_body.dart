@@ -30,7 +30,12 @@ class _HomeBodyState extends State<HomeBody> {
     selectNotifier =
         Provider.of<ValueNotifier<List<Patient>>>(context, listen: true);
 
-    TextStyle boldStyle = TextStyle(fontWeight: FontWeight.bold);
+    TextStyle boldStyle = TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: getProportionateScreenHeight(15));
+    TextStyle lightStyle = TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: getProportionateScreenHeight(13));
     SizeConfig().init(context);
     return ValueListenableBuilder(
         valueListenable: searchNotifier,
@@ -135,13 +140,16 @@ class _HomeBodyState extends State<HomeBody> {
                           },
                           icon: FaIcon(FontAwesomeIcons.trashAlt))
                       : null,
-                  subtitle: Text(currentPatient.street +
-                      ", " +
-                      currentPatient.postalCode.toString() +
-                      " " +
-                      currentPatient.city +
-                      " | " +
-                      insuranceToString(currentPatient.insurance)),
+                  subtitle: Text(
+                    currentPatient.street +
+                        ", " +
+                        currentPatient.postalCode.toString() +
+                        " " +
+                        currentPatient.city +
+                        " | " +
+                        insuranceToString(currentPatient.insurance),
+                    style: lightStyle,
+                  ),
                   title: Text(
                     currentPatient.firstName +
                         " " +

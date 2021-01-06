@@ -76,7 +76,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     selectNotifier =
         Provider.of<ValueNotifier<List<Patient>>>(context, listen: true);
-    Size size = MediaQuery.of(context).size;
+
     return ChangeNotifierProvider<ValueNotifier<String>>(
       create: (_) => ValueNotifier<String>(""),
       child: Scaffold(
@@ -86,36 +86,6 @@ class _DashboardState extends State<Dashboard> {
           slivers: <Widget>[
             HomeHeader(),
             HomeBody(),
-            /* FutureBuilder<List<Patient>>(
-                  future: getAllPatients(),
-                  builder: (BuildContext futureContext,
-                      AsyncSnapshot<List<Patient>> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return SliverToBoxAdapter(
-                        child: Container(
-                          height: 50,
-                          width: 50,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              backgroundColor: primaryColor,
-                              strokeWidth: 5,
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                    if (snapshot.connectionState == ConnectionState.done &&
-                        snapshot.hasData &&
-                        snapshot.data != null) {
-                      snapshot.data.forEach((element) =>
-                          futureContext.watch<List<Patient>>().add(element));
-                      return HomeBody();
-                    }
-                    return SliverToBoxAdapter(
-                      child: Text(snapshot.error.toString()),
-                    );
-                  },
-                )*/
           ],
         ),
       ),

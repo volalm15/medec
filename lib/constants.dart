@@ -23,7 +23,25 @@ const stateWarning = Color(0xFFFFCF5C);
 const stateError = Color(0xFFF75010);
 
 const primaryTextColor = Colors.black87;
-const primaryColor2 = Color(0xFF282338);
-const primaryColor = Color(0xFF57566D);
+const primaryColor2 = Color(0xFF899c87);
+const primaryColor = Color(0xFF6e7d6d);
 const primaryColorDark = Colors.black87;
 const defaultPadding = 8.0;
+
+const MaterialColor primaryBlack = MaterialColor(
+  _blackPrimaryValue,
+  <int, Color>{
+    50: Color(0xFF000000),
+    100: Color(0xFF000000),
+    200: Color(0xFF000000),
+    300: Color(0xFF000000),
+    400: Color(0xFF000000),
+    500: Color(_blackPrimaryValue),
+    600: Color(0xFF000000),
+    700: Color(0xFF000000),
+    800: Color(0xFF000000),
+    900: Color(0xFF000000),
+  },
+);
+
+const int _blackPrimaryValue = 0xFF000000;

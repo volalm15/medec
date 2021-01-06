@@ -23,7 +23,7 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
   void initState() {
     super.initState();
     Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      if (_currentPage < 1) {
+      if (_currentPage < 0) {
         setState(() {
           _currentPage++;
           _pageController.animateToPage(_currentPage,
@@ -101,7 +101,7 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 onPressed: () {
-                  if (_currentPage < 2) {
+                  if (_currentPage < 1) {
                     setState(() {
                       _currentPage++;
                       _pageController.animateToPage(_currentPage,

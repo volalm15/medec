@@ -94,7 +94,7 @@ class _AddPatientState extends State<AddPatient> {
                   children: [
                     PlantyTextFormField(
                       hintText: "First Name",
-                      width: getProportionateScreenWidth(165),
+                      width: getProportionateScreenWidth(160),
                       controller: firstNameController,
                       prefixIcon: FontAwesomeIcons.idCard,
                       height: getProportionateScreenHeight(10),
@@ -107,7 +107,7 @@ class _AddPatientState extends State<AddPatient> {
                     ),
                     PlantyTextFormField(
                       controller: lastNameController,
-                      width: getProportionateScreenWidth(165),
+                      width: getProportionateScreenWidth(160),
                       hintText: "Last Name",
                       prefixIcon: FontAwesomeIcons.idCard,
                       height: getProportionateScreenHeight(10),
@@ -162,7 +162,7 @@ class _AddPatientState extends State<AddPatient> {
                   children: [
                     PlantyTextFormField(
                       controller: postalCodeController,
-                      width: getProportionateScreenWidth(165),
+                      width: getProportionateScreenWidth(160),
                       height: getProportionateScreenHeight(10),
                       isNumber: true,
                       inputFormatter: [
@@ -185,7 +185,7 @@ class _AddPatientState extends State<AddPatient> {
                       controller: cityController,
                       hintText: "City",
                       prefixIcon: FontAwesomeIcons.idCard,
-                      width: getProportionateScreenWidth(165),
+                      width: getProportionateScreenWidth(160),
                       height: getProportionateScreenHeight(10),
                       validator: (String value) {
                         if (value.isEmpty) {
@@ -289,7 +289,7 @@ class _AddPatientState extends State<AddPatient> {
                 Row(
                   children: [
                     PlantyTextFormField(
-                      width: getProportionateScreenWidth(165),
+                      width: getProportionateScreenWidth(160),
                       hintText: "First Name",
                       controller: coFirstNameController,
                       prefixIcon: FontAwesomeIcons.idCard,
@@ -304,7 +304,7 @@ class _AddPatientState extends State<AddPatient> {
                     PlantyTextFormField(
                       hintText: "Last Name",
                       controller: coLastNameController,
-                      width: getProportionateScreenWidth(165),
+                      width: getProportionateScreenWidth(160),
                       prefixIcon: FontAwesomeIcons.idCard,
                       height: getProportionateScreenHeight(10),
                       validator: (String value) {
@@ -431,7 +431,7 @@ class _AddPatientState extends State<AddPatient> {
                             width: getProportionateScreenWidth(150),
                             child: RaisedButton.icon(
                               elevation: 10,
-                              color: primaryColor,
+                              color: Colors.grey,
                               shape: RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
@@ -454,7 +454,7 @@ class _AddPatientState extends State<AddPatient> {
                               width: getProportionateScreenWidth(150),
                               child: RaisedButton.icon(
                                 elevation: 10,
-                                color: primaryColor,
+                                color: Colors.grey,
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20))),

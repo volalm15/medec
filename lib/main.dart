@@ -6,10 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:medec/login/login.dart';
 import 'package:medec/onboarding/onboarding.dart';
+import 'package:medec/pages/pin/pin_detection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
-import 'home/home.dart';
 
 Future<void> main() async {
   try {
@@ -60,12 +60,8 @@ class MyApp extends StatelessWidget {
                     case ConnectionState.active:
                       {
                         User user = snapshot.data;
-                        if (user != null &&
-                            user.emailVerified &&
-                            !user.isAnonymous) {
-                          return Home();
-                        }
-                        return Login();
+                        if (user == null || !user.emailVerified) return Login();
+                        return PinDetection();
                       }
 
                     default:

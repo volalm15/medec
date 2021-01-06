@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:medec/components/search_field.dart';
 import 'package:medec/pages/dashboard/models/patient_model.dart';
 import 'package:provider/provider.dart';
@@ -25,9 +26,12 @@ class HomeHeaderState extends State<HomeHeader> {
     _editMode = value;
   }
 
+  User user;
+
   @override
   void initState() {
     super.initState();
+    user = FirebaseAuth.instance.currentUser;
     // Provider.of<Patient>(context, listen: false).setX = 'Set to new value';
   }
 
@@ -80,7 +84,59 @@ class HomeHeaderState extends State<HomeHeader> {
                                 size: getProportionateScreenHeight(25),
                               ),
                               onPressed: () {
-                                FirebaseAuth.instance.signOut();
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return new AlertDialog(
+                                      title: Text("Attention"),
+                                      actions: [
+                                        RaisedButton.icon(
+                                          color: primaryColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          icon: FaIcon(
+                                            FontAwesomeIcons.times,
+                                            size: getProportionateScreenHeight(
+                                                20),
+                                          ),
+                                          label: Text('Cancel'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        RaisedButton.icon(
+                                          color: primaryColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          icon: FaIcon(
+                                            FontAwesomeIcons.check,
+                                            size: getProportionateScreenHeight(
+                                                20),
+                                          ),
+                                          label: Text('Confirm'),
+                                          onPressed: () {
+                                            setState(() {
+                                              FirebaseAuth.instance
+                                                  .signOut()
+                                                  .catchError((error) {
+                                                Scaffold.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(error)));
+                                              });
+                                              Navigator.of(context).pop();
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                      content:
+                                          Text("Do you really want do logout?"),
+                                    );
+                                  },
+                                );
                               }),
                         ),
                       ),
@@ -124,7 +180,7 @@ class HomeHeaderState extends State<HomeHeader> {
                           height: 0.5),
                     ),
                     Text(
-                      "Welcome " + FirebaseAuth.instance.currentUser.email,
+                      "Welcome " + user.email,
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
