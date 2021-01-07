@@ -54,13 +54,16 @@ class MyApp extends StatelessWidget {
         home: _firstUse
             ? Onboarding()
             : StreamBuilder<User>(
-                stream: FirebaseAuth.instance.authStateChanges(),
+                initialData: null,
+                stream: FirebaseAuth.instance.userChanges(),
                 builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.active:
                       {
                         User user = snapshot.data;
-                        if (user == null || !user.emailVerified) return Login();
+                        if (user == null || !user.emailVerified) {
+                          return Login();
+                        }
                         return PinDetection();
                       }
 

@@ -46,7 +46,7 @@ class _PinDetectionState extends State<PinDetection> {
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: Text(
                 'PIN Verification',
-                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25),
+                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -80,6 +80,7 @@ class _PinDetectionState extends State<PinDetection> {
                       .then((value) {
                     String pin = value.value.toString();
                     if (v == pin) {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => Home()),
