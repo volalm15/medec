@@ -130,9 +130,9 @@ class _HomeBodyState extends State<HomeBody> {
                                   ],
                                   content: Text(
                                       "Do you really want do delete the patient " +
-                                          currentPatient.firstName +
-                                          " " +
                                           currentPatient.lastName +
+                                          " " +
+                                          currentPatient.firstName +
                                           "?"),
                                 );
                               },
@@ -151,9 +151,9 @@ class _HomeBodyState extends State<HomeBody> {
                     style: lightStyle,
                   ),
                   title: Text(
-                    currentPatient.firstName +
+                    currentPatient.lastName +
                         " " +
-                        currentPatient.lastName +
+                        currentPatient.firstName +
                         " | " +
                         currentPatient.svNumber.toString() +
                         " " +

@@ -28,8 +28,8 @@ List<GlobalKey<FormState>> _formKeys = [
 ];
 
 class _AddPatientState extends State<AddPatient> {
-  Insurance _insuranceValue = Insurance.GKK;
-  Insurance _coInsuranceValue = Insurance.GKK;
+  Insurance _insuranceValue = Insurance.OEGK;
+  Insurance _coInsuranceValue = Insurance.OEGK;
 
   Patient editablePatient;
   _AddPatientState(this.editablePatient) {
@@ -578,7 +578,7 @@ class _AddPatientState extends State<AddPatient> {
     String coLastName = "";
     DateTime coDayOfBirth = DateTime.now();
     int coSvNumber = 0;
-    Insurance coInsurance = Insurance.GKK;
+    Insurance coInsurance = Insurance.OEGK;
     if (_coInsurance) {
       coFirstName = coFirstNameController.text;
       coLastName = coLastNameController.text;

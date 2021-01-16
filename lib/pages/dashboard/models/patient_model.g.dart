@@ -87,8 +87,8 @@ const _$GenderEnumMap = {
 };
 
 const _$InsuranceEnumMap = {
-  Insurance.GKK: 'GKK',
+  Insurance.OEGK: 'OEGK',
   Insurance.BVAEB: 'BVAEB',
-  Insurance.BVAOEB: 'BVAOEB',
+  Insurance.PVA: 'PVA',
   Insurance.SVS: 'SVS',
 };

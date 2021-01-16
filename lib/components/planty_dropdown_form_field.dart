@@ -53,7 +53,7 @@ class _PlantyDropdownFormFieldState<T>
               border: InputBorder.none,
               prefixIcon: Icon(
                 widget.prefixIcon,
-                color: primaryColor,
+                color: primaryIconColor,
                 size: 18,
               ),
               labelStyle: TextStyle(

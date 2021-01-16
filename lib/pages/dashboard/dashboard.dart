@@ -20,7 +20,6 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-
     final FirebaseDatabase database = FirebaseDatabase
         .instance; //Rather then just writing FirebaseDatabase(), get the instance.
     itemRef = database.reference().child('patients/');

@@ -64,7 +64,7 @@ class _PlantyTextFormFieldState extends State<PlantyTextFormField> {
     final passwordIcon = IconButton(
       icon: Icon(Icons.remove_red_eye),
       onPressed: _toggle,
-      color: primaryColor,
+      color: primaryIconColor,
     );
     return Padding(
       padding: EdgeInsets.all(defaultPadding),
@@ -94,7 +94,7 @@ class _PlantyTextFormFieldState extends State<PlantyTextFormField> {
               suffixIcon: widget.isPassword ? passwordIcon : null,
               prefixIcon: Icon(
                 widget.prefixIcon,
-                color: primaryColor,
+                color: primaryIconColor,
                 size: 20,
               ),
               contentPadding: EdgeInsets.symmetric(

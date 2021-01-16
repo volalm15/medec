@@ -19,9 +19,10 @@ const stateSuccess = Color(0xFF7be495);
 const stateWarning = Color(0xFFFFCF5C);
 const stateError = Color(0xFFF75010);
 
+const primaryIconColor = Colors.grey;
 const primaryTextColor = Colors.black87;
-const primaryColor2 = Color(0xFF899c87);
-const primaryColor = Color(0xFF6e7d6d);
+const primaryColor2 = Colors.orange;
+const primaryColor = Colors.orangeAccent;
 const primaryColorDark = Colors.black87;
 const defaultPadding = 8.0;
 

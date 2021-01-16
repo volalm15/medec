@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:medec/components/search_field.dart';
 import 'package:medec/login/login.dart';
 import 'package:medec/pages/dashboard/models/patient_model.dart';
+import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
@@ -23,6 +24,8 @@ class HomeHeaderState extends State<HomeHeader> {
   ValueNotifier<String> searchNotifier;
   ValueNotifier<List<Patient>> selectNotifier;
   bool _editMode = false;
+
+  String _version = "";
   void editModeCallback(bool value) {
     _editMode = value;
   }
@@ -33,7 +36,9 @@ class HomeHeaderState extends State<HomeHeader> {
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
-    // Provider.of<Patient>(context, listen: false).setX = 'Set to new value';
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      _version = packageInfo.version;
+    });
   }
 
   @override
@@ -63,6 +68,19 @@ class HomeHeaderState extends State<HomeHeader> {
                   color: primaryColor,
                   width: double.infinity,
                   height: getProportionateScreenHeight(220),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(defaultPadding),
+                    child: Text(
+                      "Version: " + _version,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
               Positioned(
@@ -169,7 +187,7 @@ class HomeHeaderState extends State<HomeHeader> {
                   )),
               SafeArea(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
